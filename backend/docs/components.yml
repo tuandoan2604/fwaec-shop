@@ -1,0 +1,128 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        isAdmin:
+          type: bool
+      example:
+        id: 5ebac534954b54139806c112
+        email: fake@example.com
+        name: fake name
+        isAdmin: false
+
+    Product:
+      type: object
+      properties:
+        user:
+          type: ObjectId,
+          ref: User
+        name:
+          type: string
+        image:
+          type: string
+        brand:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        rating:
+          type: number
+        numReviews:
+          type: number
+        price:
+          type: number
+        countInStock:
+          type: number
+
+      example:
+        user: 5ebac534954b54139806c112
+        name: fake name
+        image: ok
+        brand: ok
+        category: ok
+        description: ok
+        rating: 10
+        numReviews: 10
+        price: 10
+        countInStock: 10
+
+    Order:
+      type: object
+      properties:
+        user:
+          type: ObjectId,
+          ref: User
+        orderItems:
+          type: array
+      example:
+        user: 5ebac534954b54139806c112
+        orderItems: [
+          {
+            name: tuan
+            qty: 1
+            image: ok
+            price: 300
+            product: 5ebac534954b54139806c11a
+          }
+        ]
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+
+  responses:
+    DuplicateEmail:
+      description: Email already taken
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 400
+            message: Email already taken
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 401
+            message: Please authenticate
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 403
+            message: Forbidden
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 404
+            message: Not found
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

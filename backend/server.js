@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json())
 app.use(cors({
-  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH','OPTIONS']
 }))
 
 app.use('/api/products', productRoutes)
